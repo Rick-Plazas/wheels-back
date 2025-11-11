@@ -1,3 +1,5 @@
+
+/* 
 package com.universdad.wheels.security;
 
 import org.springframework.context.annotation.Bean;
@@ -38,3 +40,5 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
+ */
