@@ -2,7 +2,6 @@ package com.universdad.wheels;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 
@@ -25,7 +24,7 @@ public class WheelsApplication {
 			.apellido("Plazas")
 			.correo("rplazas200@hotmail.com")
 			.telefono("3015614293")
-			.contraseña("1234")
+			.contrasena("1234")
 			.build();
 
 			usuarioRepository.save(u);

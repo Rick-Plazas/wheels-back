@@ -46,7 +46,7 @@ public class Usuario{
     private String correo;
 
     @NotBlank
-    private String contraseña;
+    private String contrasena;
 
     private String telefono;
 
