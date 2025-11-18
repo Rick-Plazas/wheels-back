@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.universdad.wheels.model.Usuario;
 import com.universdad.wheels.repository.UsuarioRepository;
 
-
-
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
@@ -32,6 +30,10 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@RequestBody Usuario usuario) {
         usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+        // Si no se define rol, se asigna USER por defecto
+        if (usuario.getRol() == null) {
+            usuario.setRol(Usuario.Rol.CONDUCTOR);
+        }
         usuarioRepository.save(usuario);
         return "Usuario registrado correctamente";
     }
@@ -39,11 +41,14 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestBody Usuario usuario) {
         Optional<Usuario> userDB = usuarioRepository.findByCorreo(usuario.getCorreo());
+
         if (userDB.isPresent() && passwordEncoder.matches(usuario.getContrasena(), userDB.get().getContrasena())) {
-            return jwtUtil.generateToken(usuario.getCorreo());
+            Usuario u = userDB.get();
+            // Convertir rol a String para el token
+            String rol = u.getRol() != null ? u.getRol().toString() : "USER";
+            return jwtUtil.generateToken(u.getCorreo(), u.getId(), rol);
         } else {
             return "Credenciales inválidas";
         }
     }
 }
-

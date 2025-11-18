@@ -19,7 +19,7 @@ public class JwtUtil {
     private static final long EXPIRATION_TIME = 86400000; // 1 día
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
-    // Genera token incluyendo username, id y rol
+    // Genera token incluyendo username, id y rol (como String)
     public String generateToken(String username, Long id, String rol) {
         return Jwts.builder()
                 .setSubject(username)

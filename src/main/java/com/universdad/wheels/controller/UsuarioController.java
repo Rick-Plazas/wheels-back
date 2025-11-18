@@ -41,8 +41,12 @@ public class UsuarioController {
         // Encriptar contraseña
         usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
 
-        Usuario saved = usuarioRepository.save(usuario);
+        // Asignar rol por defecto si no tiene
+        if (usuario.getRol() == null) {
+            usuario.setRol(Usuario.Rol.CONDUCTOR);
+        }
 
+        Usuario saved = usuarioRepository.save(usuario);
         return ResponseEntity.ok(saved);
     }
 
@@ -61,8 +65,11 @@ public class UsuarioController {
             return ResponseEntity.status(401).body("Credenciales inválidas");
         }
 
-        // Generar token con ID y email
-        String token = jwtUtil.generateToken(usuario.getCorreo());
+        // Convertir rol a String para el token
+        String rol = usuario.getRol() != null ? usuario.getRol().toString() : "USER";
+
+        // Generar token con ID, correo y rol
+        String token = jwtUtil.generateToken(usuario.getCorreo(), usuario.getId(), rol);
 
         return ResponseEntity.ok(token);
     }
